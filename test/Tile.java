@@ -44,10 +44,118 @@ public class Tile {
                 if (tileIndex != 0)
                     return false;
             }
-            return true;
+            return true;              
+        }
 
-            }
-                
+        private boolean reachedTileLImit(Tile tile){
+            switch (tile.letter) {
+                case 'A':
+                    if (tilesCounter[0] == 9)
+                        return true;
+                    break;
+                case 'B':
+                    if (tilesCounter[0] == 2)
+                        return true;
+                    break;
+                case 'C':
+                    if (tilesCounter[0] == 2)
+                        return true;
+                    break;
+                case 'D':
+                    if (tilesCounter[0] == 4)
+                        return true;
+                    break;
+                case 'E':
+                    if (tilesCounter[0] == 12)
+                        return true;
+                    break;
+                case 'F':
+                    if (tilesCounter[0] == 2)
+                        return true;
+                    break;
+                case 'G':
+                    if (tilesCounter[0] == 3)
+                        return true;
+                    break;
+                case 'H':
+                    if (tilesCounter[0] == 2)
+                        return true;
+                    break;
+                case 'I':
+                    if (tilesCounter[0] == 9)
+                        return true;
+                    break;
+                case 'J':
+                    if (tilesCounter[0] == 1)
+                        return true;
+                    break;
+                case 'K':
+                    if (tilesCounter[0] == 1)
+                        return true;
+                    break;
+                case 'L':
+                    if (tilesCounter[0] == 4)
+                        return true;
+                    break;
+                case 'M':
+                    if (tilesCounter[0] == 2)
+                        return true;
+                    break;
+                case 'N':
+                    if (tilesCounter[0] == 6)
+                        return true;
+                    break;
+                case 'O':
+                    if (tilesCounter[0] == 8)
+                        return true;
+                    break;
+                case 'P':
+                    if (tilesCounter[0] == 2)
+                        return true;
+                    break;
+                case 'Q':
+                    if (tilesCounter[0] == 1)
+                        return true;
+                    break;
+                case 'R':
+                    if (tilesCounter[0] == 6)
+                        return true;
+                    break;
+                case 'S':
+                    if (tilesCounter[0] == 4)
+                        return true;
+                    break;
+                case 'T':
+                    if (tilesCounter[0] == 6)
+                        return true;
+                    break;
+                case 'U':
+                    if (tilesCounter[0] == 4)
+                        return true;
+                    break;
+                case 'V':
+                    if (tilesCounter[0] == 2)
+                        return true;
+                    break;
+                case 'W':
+                    if (tilesCounter[0] == 2)
+                        return true;
+                    break;
+                case 'X':
+                    if (tilesCounter[0] == 1)
+                        return true;
+                    break;
+                case 'Y':
+                    if (tilesCounter[0] == 2)
+                        return true;
+                    break;
+                case 'Z':
+                    if (tilesCounter[0] == 1)
+                        return true;
+                    break;
+            
+                default:
+                    break;
             }
         }
 
@@ -62,6 +170,28 @@ public class Tile {
 
         }
        
+        public Tile getTile(char letter){
+            int letterIndex = (int) (letter - 'A');
+            if (this.isEmpty() || tilesCounter[letterIndex] == 0)
+                return null;
+            else{
+                tilesCounter[letterIndex]--;
+                return tilesArr[letterIndex];
+            }
+        }
+
+        public int size(){
+            int counter = 0;
+            for (int tileCount : tilesCounter)
+                counter += tileCount;
+            return counter;
+        }
+
+        public void put(Tile tile){
+            int tileIndex = (int)(tile.letter - 'A');
+
+        }
+        
         private Bag() {
             tilesArr = new Tile[] {
                 new Tile(1,'A'),
