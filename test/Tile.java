@@ -39,6 +39,8 @@ public class Tile {
         public final int[] tilesCounter;
         public final Tile[] tilesArr;
 
+        private static Bag bag =null;
+
         private boolean isEmpty(){
             for (int tileIndex : tilesCounter) {
                 if (tileIndex != 0)
@@ -48,115 +50,32 @@ public class Tile {
         }
 
         private boolean reachedTileLImit(Tile tile){
-            switch (tile.letter) {
-                case 'A':
-                    if (tilesCounter[0] == 9)
-                        return true;
-                    break;
-                case 'B':
-                    if (tilesCounter[0] == 2)
-                        return true;
-                    break;
-                case 'C':
-                    if (tilesCounter[0] == 2)
-                        return true;
-                    break;
-                case 'D':
-                    if (tilesCounter[0] == 4)
-                        return true;
-                    break;
-                case 'E':
-                    if (tilesCounter[0] == 12)
-                        return true;
-                    break;
-                case 'F':
-                    if (tilesCounter[0] == 2)
-                        return true;
-                    break;
-                case 'G':
-                    if (tilesCounter[0] == 3)
-                        return true;
-                    break;
-                case 'H':
-                    if (tilesCounter[0] == 2)
-                        return true;
-                    break;
-                case 'I':
-                    if (tilesCounter[0] == 9)
-                        return true;
-                    break;
-                case 'J':
-                    if (tilesCounter[0] == 1)
-                        return true;
-                    break;
-                case 'K':
-                    if (tilesCounter[0] == 1)
-                        return true;
-                    break;
-                case 'L':
-                    if (tilesCounter[0] == 4)
-                        return true;
-                    break;
-                case 'M':
-                    if (tilesCounter[0] == 2)
-                        return true;
-                    break;
-                case 'N':
-                    if (tilesCounter[0] == 6)
-                        return true;
-                    break;
-                case 'O':
-                    if (tilesCounter[0] == 8)
-                        return true;
-                    break;
-                case 'P':
-                    if (tilesCounter[0] == 2)
-                        return true;
-                    break;
-                case 'Q':
-                    if (tilesCounter[0] == 1)
-                        return true;
-                    break;
-                case 'R':
-                    if (tilesCounter[0] == 6)
-                        return true;
-                    break;
-                case 'S':
-                    if (tilesCounter[0] == 4)
-                        return true;
-                    break;
-                case 'T':
-                    if (tilesCounter[0] == 6)
-                        return true;
-                    break;
-                case 'U':
-                    if (tilesCounter[0] == 4)
-                        return true;
-                    break;
-                case 'V':
-                    if (tilesCounter[0] == 2)
-                        return true;
-                    break;
-                case 'W':
-                    if (tilesCounter[0] == 2)
-                        return true;
-                    break;
-                case 'X':
-                    if (tilesCounter[0] == 1)
-                        return true;
-                    break;
-                case 'Y':
-                    if (tilesCounter[0] == 2)
-                        return true;
-                    break;
-                case 'Z':
-                    if (tilesCounter[0] == 1)
-                        return true;
-                    break;
-            
-                default:
-                    break;
-            }
+            return ((tile.letter == 'A' && tilesCounter[0] == 9) ||
+                (tile.letter == 'B' && tilesCounter[1] == 2) ||
+                (tile.letter == 'C' && tilesCounter[2] == 2) ||
+                (tile.letter == 'D' && tilesCounter[3] == 4) ||
+                (tile.letter == 'E' && tilesCounter[4] == 12) ||
+                (tile.letter == 'F' && tilesCounter[5] == 2) ||
+                (tile.letter == 'G' && tilesCounter[6] == 3) ||
+                (tile.letter == 'H' && tilesCounter[7] == 2) ||
+                (tile.letter == 'I' && tilesCounter[8] == 9) ||
+                (tile.letter == 'J' && tilesCounter[9] == 1) ||
+                (tile.letter == 'K' && tilesCounter[10] == 1) ||
+                (tile.letter == 'L' && tilesCounter[11] == 4) ||
+                (tile.letter == 'M' && tilesCounter[12] == 2) ||
+                (tile.letter == 'N' && tilesCounter[13] == 6) ||
+                (tile.letter == 'O' && tilesCounter[14] == 8) ||
+                (tile.letter == 'P' && tilesCounter[15] == 2) ||
+                (tile.letter == 'Q' && tilesCounter[16] == 1) ||
+                (tile.letter == 'R' && tilesCounter[17] == 6) ||
+                (tile.letter == 'S' && tilesCounter[18] == 4) ||
+                (tile.letter == 'T' && tilesCounter[19] == 6) ||
+                (tile.letter == 'U' && tilesCounter[20] == 4) ||
+                (tile.letter == 'V' && tilesCounter[21] == 2) ||
+                (tile.letter == 'W' && tilesCounter[22] == 2) ||
+                (tile.letter == 'X' && tilesCounter[23] == 1) ||
+                (tile.letter == 'Y' && tilesCounter[24] == 2) ||
+                (tile.letter == 'Z' && tilesCounter[25] == 1))
         }
 
         public Tile getRand(){
@@ -180,6 +99,14 @@ public class Tile {
             }
         }
 
+        public void put(Tile tile){
+            if (this.reachedTileLImit(tile))
+                System.out.println("This tile can't be added because this tile reached the amount limit");
+            else
+                this.tilesCounter[tile.letter - 'A']++;      
+
+        }
+        
         public int size(){
             int counter = 0;
             for (int tileCount : tilesCounter)
@@ -187,11 +114,10 @@ public class Tile {
             return counter;
         }
 
-        public void put(Tile tile){
-            int tileIndex = (int)(tile.letter - 'A');
-
+        public int[] getQuantities(){
+            return (this.tilesCounter.clone());
         }
-        
+
         private Bag() {
             tilesArr = new Tile[] {
                 new Tile(1,'A'),
@@ -225,12 +151,13 @@ public class Tile {
             
         }
 
-        
+        public static Bag getBag(){
+            if (bag == null)
+                bag = new Bag();
+            return bag;
+        }
 
     }
 
-    
-    
-
-	
+    	
 }
