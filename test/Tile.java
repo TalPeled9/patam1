@@ -75,7 +75,7 @@ public class Tile {
                 (tile.letter == 'W' && tilesCounter[22] == 2) ||
                 (tile.letter == 'X' && tilesCounter[23] == 1) ||
                 (tile.letter == 'Y' && tilesCounter[24] == 2) ||
-                (tile.letter == 'Z' && tilesCounter[25] == 1))
+                (tile.letter == 'Z' && tilesCounter[25] == 1));
         }
 
         public Tile getRand(){
