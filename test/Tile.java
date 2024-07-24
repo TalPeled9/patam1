@@ -91,7 +91,7 @@ public class Tile {
        
         public Tile getTile(char letter){
             int letterIndex = (int) (letter - 'A');
-            if (this.isEmpty() || tilesCounter[letterIndex] == 0)
+            if (letterIndex < 0 || letterIndex > 25 || this.isEmpty() || tilesCounter[letterIndex] == 0)
                 return null;
             else{
                 tilesCounter[letterIndex]--;
@@ -100,9 +100,7 @@ public class Tile {
         }
 
         public void put(Tile tile){
-            if (this.reachedTileLImit(tile))
-                System.out.println("This tile can't be added because this tile reached the amount limit");
-            else
+            if (!this.reachedTileLImit(tile))
                 this.tilesCounter[tile.letter - 'A']++;      
 
         }
