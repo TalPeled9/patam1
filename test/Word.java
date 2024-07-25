@@ -31,6 +31,13 @@ public class Word {
         return vertical;
     }
 
+    public int[] lastLetterIndex(){
+        if (this.vertical)
+            return new int[] {this.row + this.tiles.length -1, this.col};
+        else
+            return new int[] {this.row, this.col + this.tiles.length -1};
+    }
+
     @Override
     public boolean equals(Object obj) {
         if (this == obj)
