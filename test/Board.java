@@ -43,16 +43,37 @@ public class Board {
         return false;
     }
 
-    private boolean isNextToWord(Word word){}
+    private boolean isNextToWord(Word word){
+        if(word.isVertical()){
+            if ((word.getRow() != 0 && this.boardTiles[word.getRow()-1][word.getCol()] != null) ||
+                (word.lastLetterIndex()[0] != 14 && this.boardTiles[word.lastLetterIndex()[0] + 1][word.getCol()] != null))
+                return true;
+            for(int i =0; i < word.getTiles().length; i++){
+                if((word.getCol() != 0 && this.boardTiles[word.getRow() + i][word.getCol() - 1] != null) ||
+                    (word.getCol() != 14 && this.boardTiles[word.getRow() + i][word.getCol() + 1] != null))
+                    return true;
+            }
+            return false;
+        }
+        else{
+            if ((word.getCol() != 0 && this.boardTiles[word.getRow()][word.getCol() - 1] != null) ||
+                (word.lastLetterIndex()[1] != 14 && this.boardTiles[word.getRow()][word.lastLetterIndex()[1] + 1] != null))
+                return true;
+            for(int i =0; i < word.getTiles().length; i++){
+                if((word.getRow() != 0 && this.boardTiles[word.getRow() - 1][word.getCol() + i] != null) ||
+                    (word.getRow() != 14 && this.boardTiles[word.getRow() + 1][word.getCol() + i] != null))
+                    return true;
+            }
+            return false;
+        }
+    }
 
     private boolean isCrossWord(Word word){}
 
     public boolean boardLegal(Word word){
-        if (!this.isInBoard(word))
-            return false;
-        if (this.boardTiles[7][7] == null && !this.isOnTile(word, 7, 7))
-            return false;
-        if (!this.isNextToWord(word) && !isCrossWord(word))
+        if ((!this.isInBoard(word)) ||
+            (this.boardTiles[7][7] == null && !this.isOnTile(word, 7, 7)) ||
+            (!this.isNextToWord(word) && !isCrossWord(word)))
             return false;
         return true;
     }
