@@ -68,15 +68,42 @@ public class Board {
         }
     }
 
-    private boolean isCrossWord(Word word){}
-
-    public boolean boardLegal(Word word){
-        if ((!this.isInBoard(word)) ||
-            (this.boardTiles[7][7] == null && !this.isOnTile(word, 7, 7)) ||
-            (!this.isNextToWord(word) && !isCrossWord(word)))
-            return false;
-        return true;
+    private boolean isCrossWord(Word word){
+        boolean flag = false;
+        int row_index = word.getRow();
+        int col_index = word.getCol();
+        for (int i = 0; i < word.getTiles().length; i++){
+            if(word.isVertical())
+                row_index ++;
+            else
+                col_index ++;
+            if(this.boardTiles[row_index][col_index] != null){
+                if (word.getTiles()[i] == this.boardTiles[row_index][col_index])
+                    flag = true;
+                else
+                    return false;
+            }
+        }
+        return flag;
     }
 
+    public boolean boardLegal(Word word){
+        if (!this.isInBoard(word))
+            return false;
+        if (this.boardTiles[7][7] == null){
+            if (this.isOnTile(word, 7, 7))
+                return true;
+            else
+                return false;
+        }
+        if(this.isNextToWord(word) || isCrossWord(word))
+            return true;
+        else
+            return false;
+    }
+
+    public boolean dictionaryLegal(Word word){
+        return true;
+    }
 
 }
