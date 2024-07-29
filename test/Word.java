@@ -31,11 +31,20 @@ public class Word {
         return vertical;
     }
 
+    public boolean isHorizontal() {
+        return !vertical;
+    }
+
     public int[] lastLetterIndex(){
         if (this.vertical)
             return new int[] {this.row + this.tiles.length -1, this.col};
-        else
-            return new int[] {this.row, this.col + this.tiles.length -1};
+        return new int[] {this.row, this.col + this.tiles.length -1};
+    }
+    
+    @Override
+    public String toString() {
+        return "Word [tiles=" + Arrays.toString(tiles) + ", row=" + row + ", col=" + col + ", vertical=" + vertical
+                + "]";
     }
 
     @Override

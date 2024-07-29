@@ -37,83 +37,49 @@ public class Tile {
     
     public static class Bag{
         public final int[] tilesCounter;
+        private final int[] maxTilesCounter;
         public final Tile[] tilesArr;
+        private int totalTiles;
 
         private static Bag bag =null;
 
-        private boolean isEmpty(){
-            for (int tileIndex : tilesCounter) {
-                if (tileIndex != 0)
-                    return false;
-            }
-            return true;              
-        }
-
-        private boolean reachedTileLImit(Tile tile){
-            return ((tile.letter == 'A' && tilesCounter[0] == 9) ||
-                (tile.letter == 'B' && tilesCounter[1] == 2) ||
-                (tile.letter == 'C' && tilesCounter[2] == 2) ||
-                (tile.letter == 'D' && tilesCounter[3] == 4) ||
-                (tile.letter == 'E' && tilesCounter[4] == 12) ||
-                (tile.letter == 'F' && tilesCounter[5] == 2) ||
-                (tile.letter == 'G' && tilesCounter[6] == 3) ||
-                (tile.letter == 'H' && tilesCounter[7] == 2) ||
-                (tile.letter == 'I' && tilesCounter[8] == 9) ||
-                (tile.letter == 'J' && tilesCounter[9] == 1) ||
-                (tile.letter == 'K' && tilesCounter[10] == 1) ||
-                (tile.letter == 'L' && tilesCounter[11] == 4) ||
-                (tile.letter == 'M' && tilesCounter[12] == 2) ||
-                (tile.letter == 'N' && tilesCounter[13] == 6) ||
-                (tile.letter == 'O' && tilesCounter[14] == 8) ||
-                (tile.letter == 'P' && tilesCounter[15] == 2) ||
-                (tile.letter == 'Q' && tilesCounter[16] == 1) ||
-                (tile.letter == 'R' && tilesCounter[17] == 6) ||
-                (tile.letter == 'S' && tilesCounter[18] == 4) ||
-                (tile.letter == 'T' && tilesCounter[19] == 6) ||
-                (tile.letter == 'U' && tilesCounter[20] == 4) ||
-                (tile.letter == 'V' && tilesCounter[21] == 2) ||
-                (tile.letter == 'W' && tilesCounter[22] == 2) ||
-                (tile.letter == 'X' && tilesCounter[23] == 1) ||
-                (tile.letter == 'Y' && tilesCounter[24] == 2) ||
-                (tile.letter == 'Z' && tilesCounter[25] == 1));
-        }
-
         public Tile getRand(){
-            int randomIndex = (int) (Math.random() * 26);
-            if (this.isEmpty() || tilesCounter[randomIndex] == 0)
+            if (totalTiles == 0)
                 return null;
-            else{
-                tilesCounter[randomIndex]--;
-                return tilesArr[randomIndex];
+            int randomIndex = (int) (Math.random() * tilesArr.length);
+            while(tilesCounter[randomIndex] == 0)
+                randomIndex = (int) (Math.random() * tilesArr.length);
+            tilesCounter[randomIndex]--;
+            totalTiles--;
+            return tilesArr[randomIndex];
             }
 
-        }
-       
         public Tile getTile(char letter){
             int letterIndex = (int) (letter - 'A');
-            if (letterIndex < 0 || letterIndex > 25 || this.isEmpty() || tilesCounter[letterIndex] == 0)
+            if (letter < 'A' || letter > 'Z' || totalTiles == 0 || tilesCounter[letterIndex] == 0)
                 return null;
             else{
                 tilesCounter[letterIndex]--;
+                totalTiles--;
                 return tilesArr[letterIndex];
             }
         }
 
         public void put(Tile tile){
-            if (!this.reachedTileLImit(tile))
-                this.tilesCounter[tile.letter - 'A']++;      
+            int tileIndex = (int) (tile.letter - 'A');
+            if (tilesCounter[tileIndex] < maxTilesCounter[tileIndex]){
+                this.tilesCounter[tileIndex]++;
+                totalTiles++;
+            }
 
         }
         
         public int size(){
-            int counter = 0;
-            for (int tileCount : tilesCounter)
-                counter += tileCount;
-            return counter;
+            return totalTiles;
         }
 
         public int[] getQuantities(){
-            return (this.tilesCounter.clone());
+            return this.tilesCounter.clone();
         }
 
         private Bag() {
@@ -146,6 +112,8 @@ public class Tile {
                 new Tile(10,'Z')
             };
             tilesCounter = new int[] {9,2,2,4,12,2,3,2,9,1,1,4,2,6,8,2,1,6,4,6,4,2,2,1,2,1};
+            maxTilesCounter = tilesCounter.clone();
+            totalTiles = 98;
             
         }
 
@@ -156,6 +124,5 @@ public class Tile {
         }
 
     }
-
-    	
+   	
 }
