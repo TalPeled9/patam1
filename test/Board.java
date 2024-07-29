@@ -105,7 +105,34 @@ public class Board {
         return true;
     }
 
-    public ArrayList<Word> getWords(Word word){}
+    private Word extractWordHorizontal(Tile tile, int row, int col){}
+
+    private Word extractWordVertical(Tile tile, int row, int col){}
+
+    public ArrayList<Word> getWords(Word word){
+        ArrayList<Word> words = new ArrayList<Word>();
+        words.add(word);
+        Word newWord = null;
+        int row_index = word.getRow();
+        int col_index = word.getCol();
+        for (int i = 0; i < word.getTiles().length; i++){
+            if(word.isVertical()){
+                newWord = this.extractWordHorizontal(word.getTiles()[i], row_index, col_index);
+                row_index ++;
+            }
+            else if(word.isHorizontal()){
+                newWord = this.extractWordVertical(word.getTiles()[i], row_index, col_index);
+                col_index ++;
+            }
+            if (newWord != null)
+                words.add(newWord);
+            
+        }
+
+        return words;
+    }
+
+    public int getScore(Word word){}
 
     private boolean replaceUnderscores(Word word){
         int row_index = word.getRow();
@@ -131,6 +158,15 @@ public class Board {
             return 0;
         if(!this.boardLegal(word))
             return 0;
+        ArrayList<Word> words = this.getWords(word);
+        int score = 0;
+        for (Word i : words) {
+            if (!this.dictionaryLegal(i))
+                return 0;
+            score += this.getScore(i);
+        }
+        return score;
+        }
         
     }
-}
+
