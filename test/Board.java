@@ -191,27 +191,27 @@ public class Board {
 
     public int getScore(Word word){}
 
-    private boolean replaceUnderscores(Word word){
+    private boolean replaceNulls(Word word){
         int row_index = word.getRow();
         int col_index = word.getCol();
         for (int i = 0; i < word.getTiles().length; i++){
-            if(word.isVertical())
-                row_index ++;
-            if(word.isHorizontal())
-                col_index ++;
-            if (word.getTiles()[i].letter == '_'){
+            if (word.getTiles()[i] == null){
                 if(this.boardTiles[row_index][col_index] == null)
                     return false;
                 else
                     word.getTiles()[i] = this.boardTiles[row_index][col_index];
             }
+            if(word.isVertical())
+                row_index ++;
+            if(word.isHorizontal())
+                col_index ++;
         }
         return true;
 
     }
 
     public int tryPlaceWord(Word word){
-        if (!this.replaceUnderscores(word))
+        if (!this.replaceNulls(word))
             return 0;
         if(!this.boardLegal(word))
             return 0;
