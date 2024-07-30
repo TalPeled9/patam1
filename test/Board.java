@@ -9,7 +9,13 @@ public class Board {
     private static Board board = null;
 
     static final int boardSize = 15;
-
+    
+    enum CrossWord {
+        NOT_CROSSING,
+        LEGAL_CROSSING,
+        ILLEGAL_CROSSING
+      }
+    
     private Board(){
         this.boardTiles = new Tile[boardSize][boardSize];
     }
@@ -74,8 +80,8 @@ public class Board {
 
     }
 
-    private boolean isLegalCrossWord(Word word){
-        boolean flag = false;
+    private CrossWord isLegalCrossing(Word word){
+        CrossWord flag = CrossWord.NOT_CROSSING;
         int row_index = word.getRow();
         int col_index = word.getCol();
         for (int i = 0; i < word.getTiles().length; i++){
@@ -85,9 +91,9 @@ public class Board {
                 col_index ++;
             if(this.boardTiles[row_index][col_index] != null){
                 if (word.getTiles()[i] == this.boardTiles[row_index][col_index])
-                    flag = true;
+                    flag = CrossWord.LEGAL_CROSSING;
                 else
-                    return false;
+                    return CrossWord.ILLEGAL_CROSSING;
             }
         }
         return flag;
@@ -98,30 +104,81 @@ public class Board {
             return false;
         if (this.boardTiles[7][7] == null)
             return this.isOnTile(word, 7, 7);
-        return (this.isLegalCrossWord(word) || this.isNextToWord(word));
+        CrossWord isCrossing = this.isLegalCrossing(word);
+        switch (isCrossing) {
+            case NOT_CROSSING:
+                return this.isNextToWord(word);
+            case LEGAL_CROSSING:
+                return true;
+            case ILLEGAL_CROSSING:
+                return false;
+        }
     }
 
     public boolean dictionaryLegal(Word word){
         return true;
     }
 
-    private Word extractWordHorizontal(Tile tile, int row, int col){}
+    private Word extractWordHorizontal(Word word){
+        ArrayList<Tile> wordTilesAl = new ArrayList<Tile>();
+        for (int i = 0; i < word.getTiles().length; i++)
+            wordTilesAl.add(word.getTiles()[i]);
+        int col_index = word.getCol() - 1;
+        while(col_index >= 0 && this.boardTiles[word.getRow()][col_index] != null){ 
+            wordTilesAl.add(0, this.boardTiles[word.getRow()][col_index]);
+            col_index--;
+        }
+        int firstCol = col_index + 1;
+        col_index = word.lastLetterIndex()[1] + 1;
+        while(col_index < boardSize && this.boardTiles[word.getRow()][col_index] != null){
+            wordTilesAl.add(this.boardTiles[word.getRow()][col_index]);
+            col_index++;
+        }
+        if (wordTilesAl.size() == 1)
+            return null;
+        Tile[] wordTilesArr = new Tile[wordTilesAl.size()];
+        wordTilesArr = wordTilesAl.toArray(wordTilesArr);
+        return new Word(wordTilesArr, word.getRow() , firstCol, false);
+    }
 
-    private Word extractWordVertical(Tile tile, int row, int col){}
+    private Word extractWordVertical(Word word){
+        ArrayList<Tile> wordTilesAl = new ArrayList<Tile>();
+        for (int i = 0; i < word.getTiles().length; i++)
+            wordTilesAl.add(word.getTiles()[i]);
+        int row_index = word.getRow() - 1;
+        while(row_index >= 0 && this.boardTiles[row_index][word.getCol()] != null){ 
+            wordTilesAl.add(0, this.boardTiles[row_index][word.getCol()]);
+            row_index--;
+        }
+        int firstRow = row_index + 1;
+        row_index = word.lastLetterIndex()[0] + 1;
+        while(row_index < boardSize && this.boardTiles[row_index][word.getCol()] != null){
+            wordTilesAl.add(this.boardTiles[row_index][word.getCol()]);
+            row_index++;
+        }
+        if (wordTilesAl.size() == 1)
+            return null;
+        Tile[] wordTilesArr = new Tile[wordTilesAl.size()];
+        wordTilesArr = wordTilesAl.toArray(wordTilesArr);
+        return new Word(wordTilesArr, firstRow , word.getCol(), true);
+    }
 
     public ArrayList<Word> getWords(Word word){
         ArrayList<Word> words = new ArrayList<Word>();
-        words.add(word);
+        if(word.isVertical())
+            words.add(this.extractWordVertical(word));
+        if(word.isHorizontal())
+            words.add(this.extractWordHorizontal(word));
         Word newWord = null;
         int row_index = word.getRow();
         int col_index = word.getCol();
         for (int i = 0; i < word.getTiles().length; i++){
             if(word.isVertical()){
-                newWord = this.extractWordHorizontal(word.getTiles()[i], row_index, col_index);
+                newWord = this.extractWordHorizontal(new Word(new Tile[] {word.getTiles()[i]}, row_index, col_index, false));
                 row_index ++;
             }
             else if(word.isHorizontal()){
-                newWord = this.extractWordVertical(word.getTiles()[i], row_index, col_index);
+                newWord = this.extractWordVertical(new Word(new Tile[] {word.getTiles()[i]}, row_index, col_index, true));
                 col_index ++;
             }
             if (newWord != null)
