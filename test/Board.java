@@ -310,9 +310,11 @@ public class Board {
                     score += letter.score * 3;
                     break;
                 case DOUBLE_WORD:
+                    score += letter.score;
                     wordMultiplier = wordMultiplier * 2;
                     break;
                 case TRIPLE_WORD:
+                    score += letter.score;
                     wordMultiplier = wordMultiplier * 3;
                     break;
                 case null:
