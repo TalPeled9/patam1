@@ -302,25 +302,20 @@ public class Board {
         for (Tile letter : word.getTiles()) {
             String index = Integer.toString(row_index) + "," + Integer.toString(col_index);
             BonusTiles bonus = this.boardBonusTiles.get(index);
-            switch (bonus) {
-                case DOUBLE_LETTER:
-                    score += letter.score * 2;
-                    break;
-                case TRIPLE_LETTER:
-                    score += letter.score * 3;
-                    break;
-                case DOUBLE_WORD:
-                    score += letter.score;
-                    wordMultiplier = wordMultiplier * 2;
-                    break;
-                case TRIPLE_WORD:
-                    score += letter.score;
-                    wordMultiplier = wordMultiplier * 3;
-                    break;
-                case null:
-                    score += letter.score;
-                    break;
+            if (bonus == BonusTiles.DOUBLE_LETTER)
+                score += letter.score * 2;
+            else if (bonus == BonusTiles.TRIPLE_LETTER)
+                score += letter.score * 3;
+            else if (bonus == BonusTiles.DOUBLE_WORD){
+                score += letter.score;
+                wordMultiplier = wordMultiplier * 2;
             }
+            else if (bonus == BonusTiles.TRIPLE_WORD){
+                score += letter.score;
+                wordMultiplier = wordMultiplier * 3;
+            }
+            else
+                score += letter.score;
             if (word.isVertical())
                 row_index++;
             else
