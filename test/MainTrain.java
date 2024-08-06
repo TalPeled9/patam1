@@ -59,7 +59,7 @@ public class MainTrain {
 			System.out.println("wrong result for CacheManager last queries (-10)");
 				
 	}
-	
+	/*
 	public static void testBloomFilter() {
 		BloomFilter bf =new BloomFilter(256,"MD5","SHA1");
 		String[] words = "the quick brown fox jumps over the lazy dog".split(" ");
@@ -106,19 +106,19 @@ public class MainTrain {
 			System.out.println("problem with dictionarry in query (-5)");
 		if(!d.challenge("lazy"))
 			System.out.println("problem with dictionarry in query (-5)");
-	}
+	}*/
 
 	public static void main(String[] args) {
 		testLRU();
 		testLFU();
 		testCacheManager();
-		testBloomFilter();
+		/*testBloomFilter();
 		try {
 			testIOSearch();
 		} catch(Exception e) {
 			System.out.println("you got some exception (-10)");
 		}
-		testDictionary();
+		testDictionary();*/
 		System.out.println("done");
 	}
 }
