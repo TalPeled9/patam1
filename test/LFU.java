@@ -1,20 +1,23 @@
 package test;
 
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.PriorityQueue;
 
-import test.LFU.Pair;
-
 public class LFU implements CacheReplacementPolicy{
-    HashMap<String, Pair> cache;
-    PriorityQueue<Pair> minHeap;
+    HashMap<String, Item> cache;
+    PriorityQueue<Item> minHeap;
+    private int insertionCounter;
 
     public LFU() {
-        this.cache = new HashMap<String, Pair>();
-        this.minHeap = new PriorityQueue<>((a, b) -> a.frequency - b.frequency);
+        this.insertionCounter = 0;
+        this.cache = new HashMap<String, Item>();
+        this.minHeap = new PriorityQueue<>(Comparator.comparingInt((Item a) -> a.frequency)
+                                            .thenComparingInt(a -> a.insertionIndex));
     }
     
     public void add(String word){
+        this.insertionCounter++;
         if (cache.containsKey(word))
             this.increment(word);
         else
@@ -22,33 +25,36 @@ public class LFU implements CacheReplacementPolicy{
     }
 
     public String remove(){
-        Pair lfuPair = minHeap.poll();
-        cache.remove(lfuPair.value);
-        return lfuPair.value;
+        Item lfuItem = minHeap.poll();
+        cache.remove(lfuItem.value);
+        return lfuItem.value;
     }
 
     public void insert(String word) {
-        Pair newPair = new Pair(word, 1);
-        cache.put(word, newPair);
-        minHeap.offer(newPair);
+        Item newItem = new Item(word, 1, this.insertionCounter);
+        cache.put(word, newItem);
+        minHeap.offer(newItem);
     }
 
     public void increment(String word) {
-        Pair pair = cache.get(word);
-        this.minHeap.remove(pair);
+        Item item = cache.get(word);
+        this.minHeap.remove(item);
         this.cache.remove(word);
-        pair.frequency += 1;
-        this.minHeap.offer(pair);
-        this.cache.put(word, pair);
+        item.frequency += 1;
+        item.insertionIndex = this.insertionCounter;
+        this.minHeap.offer(item);
+        this.cache.put(word, item);
     }
     
-    class Pair{
+    class Item{
         String value;
         int frequency;
+        int insertionIndex;
 
-        public Pair(String value, int frequency) {
+        public Item(String value, int frequency, int insertionIndex) {
             this.value = value;
             this.frequency = frequency;
+            this.insertionIndex = insertionIndex;
         }
 }
 
