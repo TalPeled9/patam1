@@ -1,6 +1,6 @@
 package test;
 
 public interface CacheReplacementPolicy{
-	void add(String word);
-	String remove(); 
+	public void add(String word);
+	public String remove(); 
 }

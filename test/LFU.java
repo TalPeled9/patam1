@@ -5,8 +5,8 @@ import java.util.HashMap;
 import java.util.PriorityQueue;
 
 public class LFU implements CacheReplacementPolicy{
-    HashMap<String, Item> cache;
-    PriorityQueue<Item> minHeap;
+    private HashMap<String, Item> cache;
+    private PriorityQueue<Item> minHeap;
     private int insertionCounter;
 
     public LFU() {

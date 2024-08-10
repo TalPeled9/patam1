@@ -3,7 +3,7 @@ package test;
 import java.util.LinkedHashSet;
 
 public class LRU implements CacheReplacementPolicy {
-    LinkedHashSet<String> cache;  
+    private LinkedHashSet<String> cache;  
 
     public LRU(){  
         this.cache = new LinkedHashSet<String>();   
