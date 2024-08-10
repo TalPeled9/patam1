@@ -83,7 +83,7 @@ public class MainTrain {
 		if(found)
 			System.out.println("problem finding words that should not exist in the bloom filter (-15)");		
 	}
-	/*
+	
 	public static void testIOSearch() throws Exception{
 		String words1 = "the quick brown fox \n jumps over the lazy dog";		
 		String words2 = "A Bloom filter is a space efficient probabilistic data structure, \n conceived by Burton Howard Bloom in 1970";
@@ -100,6 +100,7 @@ public class MainTrain {
 			System.out.println("your IOsearch found a word that does not exist (-5)");		
 	}
 	
+	/*
 	public static void testDictionary() {
 		Dictionary d = new Dictionary("text1.txt","text2.txt");
 		if(!d.query("is"))
@@ -113,12 +114,12 @@ public class MainTrain {
 		testLFU();
 		testCacheManager();
 		testBloomFilter();
-		/*try {
+		try {
 			testIOSearch();
 		} catch(Exception e) {
 			System.out.println("you got some exception (-10)");
 		}
-		testDictionary();*/
+		//testDictionary();
 		System.out.println("done");
 	}
 }
