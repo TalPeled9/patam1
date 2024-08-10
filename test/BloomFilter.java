@@ -3,75 +3,57 @@ package test;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
 import java.util.BitSet;
+import java.util.List;
 
 public class BloomFilter {
-	public BitSet bs;
-    public String[] hashFuncs;
+	private BitSet bitSet;
+    private int bitSetSize;
+    private List<MessageDigest> hashFunctions;
 
-    public BloomFilter(int size, String... algs){
-        this.bs = new BitSet(size);
-        this.hashFuncs = algs;
-    }
-
-    private MessageDigest getMD(String s){
-        try{MessageDigest md = MessageDigest.getInstance(s);
-            return md;
-        } catch(NoSuchAlgorithmException x){
-            System.out.println(s + " - this function is not valid");
-            return null;
+    public BloomFilter(int size, String... algs) {
+        this.bitSetSize = size;
+        this.bitSet = new BitSet(size);
+        this.hashFunctions = new ArrayList<>();
+        for (String alg : algs) {
+            try {
+                MessageDigest md = MessageDigest.getInstance(alg);
+                this.hashFunctions.add(md);
+            } catch (NoSuchAlgorithmException e) {
+                throw new IllegalArgumentException("Invalid hash algorithm: " + alg, e);
+            }
         }
     }
 
-    private boolean isValidAlgs(){
-        for (String hash : hashFuncs) {
-            if(this.getMD(hash) == null)
+    private int getHashValue(String word, MessageDigest md){
+        byte[] bytes = word.getBytes();
+        byte[] hash = md.digest(bytes);
+        BigInteger hashBigInteger = new BigInteger(1, hash);
+        int hashValue = hashBigInteger.mod(BigInteger.valueOf(bitSetSize)).intValue();
+        return hashValue;
+    }
+
+    public void add(String word) {
+        for (MessageDigest md : hashFunctions)
+            bitSet.set(this.getHashValue(word, md));
+    }
+
+    public boolean contains(String word) {
+        for (MessageDigest md : hashFunctions) {
+            if (!bitSet.get(this.getHashValue(word, md)))
                 return false;
         }
         return true;
     }
 
-    private int wordToIntVal(String word, String hash){
-        MessageDigest md = this.getMD(hash);
-        md.update(word.getBytes());
-        byte[] bts= md.digest(word.getBytes());
-        return Math.abs(new BigInteger(bts).intValue());
-    }
-    
-    public void add(String word){
-        if (this.isValidAlgs()) {
-            for (String hash : hashFuncs)
-                this.bs.set(this.wordToIntVal(word, hash) % this.bs.size());
-            }
-        else
-            System.out.println("Could not add word");
-            
-    }
-
-    public boolean contains(String word){
-        if (this.isValidAlgs()) {
-            for (String hash : hashFuncs) {
-                if(!this.bs.get(this.wordToIntVal(word, hash) % this.bs.size()))
-                    return false;
-                }
-                return true;
-            }
-        else{
-            System.out.println("Could not check contains");
-            return false;
-        }
-    }
-
     @Override
     public String toString() {
-        StringBuilder str = new StringBuilder();
-        for(int i = 0; i < this.bs.size(); i++){
-            if (this.bs.get(i))
-                str.append("1");
-            else
-                str.append("0");
+        StringBuilder sb = new StringBuilder(bitSetSize);
+        for (int i = 0; i < bitSetSize; i++) {
+            sb.append(bitSet.get(i) ? '1' : '0');
         }
-        return str.toString();
+        return sb.toString();
     }
   
 }
