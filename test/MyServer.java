@@ -12,5 +12,8 @@ public class MyServer {
         stop=false;
     }
         
+    public void start(){}
+
+    public void close(){}
 	
 }

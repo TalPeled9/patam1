@@ -1,4 +1,4 @@
-/*package test;
+package test;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -10,7 +10,7 @@ import java.util.Random;
 import java.util.Scanner;
 
 public class MainTrain3 {
-	
+	/*
 	public static class ClientHandler1 implements ClientHandler{
 		PrintWriter out;
 		Scanner in;		
@@ -72,7 +72,7 @@ public class MainTrain3 {
 			ok=false;
 		}
 		return ok;
-	}
+	}*/
 	
 
 	public static String[] writeFile(String name) {
@@ -117,7 +117,7 @@ public class MainTrain3 {
 			System.out.println("wrong size for the Dictionary Manager (-10)");
 		
 	}
-	
+	/*
 	public static void runClient(int port,String query,boolean result) {
 		try {
 			Socket server=new Socket("localhost",port);
@@ -151,14 +151,14 @@ public class MainTrain3 {
 		runClient(port, "C,s1.txt,s2.txt,"+s1[9], true);
 		runClient(port, "C,s1.txt,s2.txt,#"+s2[1], false);
 		s.close();
-	}
+	}*/
 	
 	public static void main(String[] args) {
-		if(testServer()) {
+		//if(testServer()) {
 			testDM();
-			testBSCH();			
-		}
+			//testBSCH();			
+		//}
 		System.out.println("done");
 	}
 
-}*/
+}
