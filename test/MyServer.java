@@ -9,6 +9,7 @@ public class MyServer {
     private int port;
     private ClientHandler ch;
     private ServerSocket server;
+    private Socket aClient;
     private volatile boolean stop;
 
     public MyServer(int port, ClientHandler ch) {
@@ -23,12 +24,9 @@ public class MyServer {
         server.setSoTimeout(1000);
         while(!stop){
             try{
-                Socket aClient=server.accept();
+                aClient = server.accept();
                 try {
                     ch.handleClient(aClient.getInputStream(), aClient.getOutputStream());
-                    aClient.getInputStream().close();
-                    aClient.getOutputStream().close();
-                    aClient.close();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -52,6 +50,15 @@ public class MyServer {
         if (this.ch != null) {
             ch.close();
         }
+        if(!aClient.isClosed()){
+        try{
+            aClient.getInputStream().close();
+            aClient.getOutputStream().close();
+            aClient.close();
+        } catch (IOException e){
+            e.printStackTrace();
+        }
+    }
         if (server != null && !server.isClosed()) {
             try {
                 server.close();
