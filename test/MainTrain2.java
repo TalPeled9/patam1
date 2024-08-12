@@ -1,4 +1,4 @@
-package test;
+/*package test;
 
 import java.io.FileWriter;
 import java.io.PrintWriter;
@@ -121,4 +121,4 @@ public class MainTrain2 {
 		testDictionary();
 		System.out.println("done");
 	}
-}
+}*/
