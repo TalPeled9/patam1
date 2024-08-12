@@ -1,4 +1,4 @@
-package test;
+/*package test;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -161,4 +161,4 @@ public class MainTrain3 {
 		System.out.println("done");
 	}
 
-}
+}*/
