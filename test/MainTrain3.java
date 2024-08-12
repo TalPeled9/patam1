@@ -10,7 +10,7 @@ import java.util.Random;
 import java.util.Scanner;
 
 public class MainTrain3 {
-	/*
+
 	public static class ClientHandler1 implements ClientHandler{
 		PrintWriter out;
 		Scanner in;		
@@ -72,7 +72,7 @@ public class MainTrain3 {
 			ok=false;
 		}
 		return ok;
-	}*/
+	}
 	
 
 	public static String[] writeFile(String name) {
@@ -154,10 +154,10 @@ public class MainTrain3 {
 	}*/
 	
 	public static void main(String[] args) {
-		//if(testServer()) {
+		if(testServer()) {
 			testDM();
 			//testBSCH();			
-		//}
+		}
 		System.out.println("done");
 	}
 
