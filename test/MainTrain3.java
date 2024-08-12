@@ -154,10 +154,10 @@ public class MainTrain3 {
 	}*/
 	
 	public static void main(String[] args) {
-		if(testServer()) {
+		//if(testServer()) {
 			testDM();
 			//testBSCH();			
-		}
+		//}
 		System.out.println("done");
 	}
 
