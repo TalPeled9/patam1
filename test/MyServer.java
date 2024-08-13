@@ -55,6 +55,7 @@ public class MyServer {
     }
 
     public void start() {
+        this.stop = false;
         new Thread(() -> {
             try {
                 runServer();
