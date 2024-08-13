@@ -16,11 +16,11 @@ public class BookScrabbleHandler implements ClientHandler {
         out = new PrintWriter(outToClient);
         boolean check = false;
         String line = in.nextLine();
-        String[] args = line.split("/");
+        String[] args = line.split(",");
         DictionaryManager dm = DictionaryManager.get();
-        if (args[0] == "Q")
+        if (args[0].equals("Q"))
             check = dm.query(Arrays.copyOfRange(args, 1, args.length));
-        else if (args[0] == "C")
+        else if (args[0].equals("C"))
             check = dm.challenge(Arrays.copyOfRange(args, 1, args.length));
         out.print(Boolean.toString(check) + "\n");
 		out.flush();
